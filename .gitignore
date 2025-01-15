@@ -14,4 +14,4 @@ node_modules/
 # Собранные файлы (допишите самостоятельно)
 /dist
 webpack.config.js
-
+/build
