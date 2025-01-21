@@ -1,7 +1,11 @@
 # Проект «Большое путешествие»
 
 * Студент: [Анна Поддубная](https://up.htmlacademy.ru/ecmascript-individual/2/user/2585105).
+<<<<<<< HEAD
+* Наставник: [Евгений Лепешкин](https://htmlacademy.ru/profile/spearance).
+=======
 * Наставник:[ЕвгенийЛепешкин] (https://htmlacademy.ru/profile/spearance).
+>>>>>>> origin/module1-task3
 
 ---
 
