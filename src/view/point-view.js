@@ -59,3 +59,4 @@ export default class PointView {
     this.element = null;
   }
 }
+
