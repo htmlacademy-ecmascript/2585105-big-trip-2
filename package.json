@@ -1,8 +1,8 @@
 {
-  "name": "taskmanager-demo-project",
-  "version": "21.0.0",
+  "name": "big-trip",
+  "version": "20.0.0",
   "private": true,
-  "description": "Учебный демо-проект «Менеджер задач» от HTML Academy",
+  "description": "Проект «Большое путешествие» от HTML Academy",
   "browserslist": [
     "last 2 versions",
     "not dead",
@@ -11,9 +11,9 @@
     "not < 0.25%"
   ],
   "scripts": {
-    "lint": "eslint src/",
+    "start": "webpack serve --mode development --open",
     "build": "webpack --mode production",
-    "start": "webpack serve --mode development --open"
+    "lint": "eslint src/"
   },
   "devDependencies": {
     "@babel/core": "7.21.4",
