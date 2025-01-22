@@ -1,4 +1,4 @@
-import { createElement } from '../render.js'
+import { createElement } from "../render.js";
 
 function createInfoTripTemplate() {
   return `
@@ -13,7 +13,7 @@ function createInfoTripTemplate() {
             Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
             </p>
         </section>
-    `
+    `;
 }
 
 export default class InfoTrip {
@@ -33,3 +33,4 @@ export default class InfoTrip {
     this.element = null;
   }
 }
+
