@@ -9,6 +9,7 @@ export default class DestinationsModel {
   }
 
   getById(id) {
-    return this.destinations.find((destionation) => destionation.id === id);
+    const foundDestination = this.destinations.find((destination) => destination.id === id);
+    return foundDestination || null;
   }
 }

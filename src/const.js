@@ -10,7 +10,7 @@ const TYPES = [
   'Restaurant',
 ];
 
-const DESCROPTIONS = [
+const DESCRIPTIONS = [
   'lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   'lorem ipsum dolor sit amet, consectetur adipiscing elit.',
   'cras aliquet varius magna, non porta ligula feugiat eget.',
@@ -36,15 +36,15 @@ const OFFERS = [
   'Travel by train',
 ];
 
-const Price = {
-  MIN: 20,
-  MAX: 2000,
+const PRICE = {
+  min: 20,
+  max: 2000,
 };
 
-const Duration = {
-  HOUR: 2,
-  DAY: 1,
-  MIN: 20,
+const DURATION = {
+  hour: 2,
+  day: 1,
+  min: 20,
 };
 
 const DESTINATION_COUNT = 3;
@@ -54,4 +54,4 @@ const OFFER_COUNT = 3;
 const POINT_COUNT = 6;
 
 
-export { TYPES, DESCROPTIONS, CITIES, OFFERS, Price, Duration, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT };
+export { TYPES, DESCRIPTIONS, CITIES, OFFERS, PRICE, DURATION, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT };

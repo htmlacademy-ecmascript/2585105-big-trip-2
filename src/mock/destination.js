@@ -1,17 +1,17 @@
 import { getRandomArrayElement } from '../utils.js';
-import { CITIES, DESCROPTIONS } from '../const.js';
+import { CITIES, DESCRIPTIONS } from '../const.js';
 
 function generateMockDestination() {
   const city = getRandomArrayElement(CITIES);
-  const description = getRandomArrayElement(DESCROPTIONS);
+  const description = getRandomArrayElement(DESCRIPTIONS);
   return {
     id: crypto.randomUUID(),
-    description: description,
+    description,
     name: city,
-    pictures: {
+    pictures: [{
       src: `https://loremflickr.com/248/152?random=${crypto.randomUUID()}`,
-      description: `${city} description`,
-    },
+      description: `${city} ${description}`,
+    }],
   };
 }
 
