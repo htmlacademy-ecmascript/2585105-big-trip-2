@@ -22,8 +22,7 @@ export default class BoardPresenter {
       point: this.points[0],
       pointDestinations: this.destinations.getById(this.points[0].destination),
       pointOffers: this.offers.getByType(this.points[0].type)
-    }),
-      this.editListComponent.getElement()
+    }), this.editListComponent.getElement()
     );
 
     this.points.forEach((point) => {
@@ -38,4 +37,3 @@ export default class BoardPresenter {
     });
   }
 }
-

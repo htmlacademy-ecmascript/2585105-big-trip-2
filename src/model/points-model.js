@@ -1,10 +1,18 @@
-export default class PointsModel {
-  constructor(service) {
-    this.service = service;
-    this.points = this.service.getPoints();
-  }
+import { getRandomPositiveInteger } from '../utils.js';
+import { Price } from '../const.js';
+import { getDate } from './utils.js';
 
-  get() {
-    return this.points;
-  }
+function generateMockPoint(type, destinationId, offerIds) {
+  return {
+    id: crypto.randomUUID(),
+    basePrice: getRandomPositiveInteger(Price.MIN, Price.MAX),
+    dateFrom: getDate({ next: false }),
+    dateTo: getDate({ next: true }),
+    destination: destinationId,
+    isFavorite: !!getRandomPositiveInteger(0, 1),
+    offers: offerIds,
+    type,
+  };
 }
+
+export { generateMockPoint };

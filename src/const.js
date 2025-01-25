@@ -19,7 +19,7 @@ const DESCROPTIONS = [
 ];
 
 const CITIES = [
-  'Moscow',
+  'Amsterdam',
   'Chamonix',
   'Geneva',
   'Barcelona',

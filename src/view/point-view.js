@@ -2,7 +2,7 @@ import { createElement } from '../render.js';
 import { formatStringToShortDate, formatStringToDayTime, formatStringToTime, getPointDuration } from '../utils.js';
 
 function createPointTemplate({ point, pointDestinations, pointOffers }) {
-  const { basePrice, dateFrom, dateTo, offers, isFavorite, type } = point;
+  const { basePrice, dateFrom, dateTo, type } = point;
 
   return `
         <li class="trip-events__item">
@@ -29,13 +29,12 @@ function createPointTemplate({ point, pointDestinations, pointOffers }) {
             </p>
             <h4 class="visually-hidden">Offers:</h4>
             <ul class="event__selected-offers">
-            ${pointOffers.map((offer) => `
-              <li class="event__offer">
-                <span class="event__offer-title">${offer.title}</span><br>
-                +€&nbsp;
-                <span class="event__offer-price">${offer.price}</span>
-              </li>`).join('')}
-
+              ${pointOffers.map((offer) => `
+                <li class="event__offer">
+                  <span class="event__offer-title">${offer.title}</span><br>
+                  +€&nbsp;
+                  <span class="event__offer-price">${offer.price}</span>
+                </li>`).join('')}
             </ul>
             <button class="event__favorite-btn  ${(point.isFavorite) ? 'event__favorite-btn--active' : ''}" type="button">
                 <span class="visually-hidden">Add to favorite</span>

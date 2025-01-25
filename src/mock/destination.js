@@ -1,9 +1,9 @@
 import { getRandomArrayElement } from '../utils.js';
-import { CITIES, DESCRIPTIONS } from '../const.js';
+import { CITIES, DESCROPTIONS } from '../const.js';
 
-function generateMockDestination(destinationId) {
+function generateMockDestination() {
   const city = getRandomArrayElement(CITIES);
-  const description = getRandomArrayElement(DESCRIPTIONS); // Исправлено
+  const description = getRandomArrayElement(DESCROPTIONS);
   return {
     id: crypto.randomUUID(),
     description: description,

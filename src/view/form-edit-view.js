@@ -1,8 +1,8 @@
 import { createElement } from '../render.js';
-import { formatStringToShortDate, formatStringToDayTime, formatStringToTime, getPointDuration } from '../utils.js';
+import { formatStringToDayTime } from '../utils.js';
 
 function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
-  const { basePrice, dateFrom, dateTo, dastination, offers, type } = point;
+  const { type } = point;
   return `
         <li class="trip-events__item">
             <form class="event event--edit" action="#" method="post">
@@ -70,7 +70,8 @@ function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
                 <label class="event__label  event__type-output" for="event-destination-1">
                     ${type}
                 </label>
-                <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${pointDestinations.name}" list="destination-list-1">
+                <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${pointDestinations.name
+    }" list="destination-list-1">
                 <datalist id="destination-list-1">
                     <option value="Amsterdam"></option>
                     <option value="Geneva"></option>
@@ -80,10 +81,14 @@ function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
 
                 <div class="event__field-group  event__field-group--time">
                 <label class="visually-hidden" for="event-start-time-1">From</label>
-                <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${formatStringToDayTime(point.dateFrom)}">
+                <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${formatStringToDayTime(
+      point.dateFrom
+    )}">
                 &mdash;
                 <label class="visually-hidden" for="event-end-time-1">To</label>
-                <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"  value="${formatStringToDayTime(point.dateTo)}">
+                <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"  value="${formatStringToDayTime(
+      point.dateTo
+    )}">
                 </div>
 
                 <div class="event__field-group  event__field-group--price">
@@ -91,7 +96,8 @@ function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
                     <span class="visually-hidden">Price</span>
                     &euro;
                 </label>
-                <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${point.basePrice}">
+                <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${point.basePrice
+    }">
                 </div>
 
                 <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
@@ -110,7 +116,9 @@ function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
                         <span class="event__offer-price">30</span>
                     </label>
                     </div>
-                    ${pointOffers.map((offer) => `
+                    ${pointOffers
+      .map(
+        (offer) => `
                     <div class="event__offer-selector">
                     <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
                     <label class="event__offer-label" for="event-offer-luggage-1">
@@ -118,17 +126,21 @@ function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
                         &plus;&euro;&nbsp;
                         <span class="event__offer-price">${offer.price}</span>
                     </label>
-                    </div>`).join('')}
+                    </div>`
+      )
+      .join('')}
                 </div>
                 </section>
 
                 <section class="event__section  event__section--destination">
                 <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-                <p class="event__destination-description">${pointDestinations.name} ${pointDestinations.description}</p>
+                <p class="event__destination-description">${pointDestinations.name
+    } ${pointDestinations.description}</p>
 
                 <div class="event__photos-container">
                     <div class="event__photos-tape">
-                        <img class="event__photo" src="${pointDestinations.pictures.src}" alt="${pointDestinations.pictures.description}">
+                        <img class="event__photo" src="${pointDestinations.pictures.src
+    }" alt="${pointDestinations.pictures.description}">
                     </div>
                 </div>
                 </section>
