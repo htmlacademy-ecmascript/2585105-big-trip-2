@@ -12,6 +12,10 @@ import {
 } from '../const.js';
 
 export default class MockService {
+  destinations = [];
+  offers = [];
+  points = [];
+
   constructor() {
     this.destinations = this.generateMockDestinations();
     this.offers = this.generateMockOffers();
@@ -41,7 +45,7 @@ export default class MockService {
       type,
       offers: Array.from(
         { length: getRandomPositiveInteger(0, OFFER_COUNT) },
-        () => generateMockOffer()
+        () => generateMockOffer(type)
       ),
     }));
   }
@@ -56,13 +60,13 @@ export default class MockService {
         (offerByType) => offerByType.type === type
       );
 
-      const offersIds = hasOffers
+      const offerIds = (hasOffers)
         ? offersByType.offers
-          .slice(0, getRandomPositiveInteger(0, 5))
+          .slice(0, getRandomPositiveInteger(0, OFFER_COUNT))
           .map((offer) => offer.id)
         : [];
 
-      return generateMockPoint(type, destination.id, offersIds);
+      return generateMockPoint(type, destination.id, offerIds);
     });
   }
 }
