@@ -1,4 +1,4 @@
-import AbstractView from "../framework/view/abstract-view.js";
+import AbstractView from '../framework/view/abstract-view.js';
 import { formatStringToShortDate, formatStringToDayTime, formatStringToTime, getPointDuration } from '../utils.js';
 
 function createPointTemplate({ point, pointDestinations, pointOffers }) {
@@ -63,10 +63,11 @@ export default class PointView extends AbstractView {
   }
 
   get template() {
-    return createPointTemplate(
-      this.#point,
-      this.#pointDestinations,
-      this.#pointOffers
+    return createPointTemplate({
+      point: this.#point,
+      pointDestinations: this.#pointDestinations,
+      pointOffers: this.#pointOffers
+    }
     );
   }
 }
