@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from "../framework/view/abstract-view.js";
 import { formatStringToShortDate, formatStringToDayTime, formatStringToTime, getPointDuration } from '../utils.js';
 
 function createPointTemplate({ point, pointDestinations, pointOffers }) {
@@ -50,30 +50,23 @@ function createPointTemplate({ point, pointDestinations, pointOffers }) {
     `;
 }
 
-export default class PointView {
+export default class PointView extends AbstractView {
+  #point = null;
+  #pointDestinations = null;
+  #pointOffers = null;
+
   constructor({ point, pointDestinations, pointOffers }) {
-    this.point = point;
-    this.pointDestinations = pointDestinations;
-    this.pointOffers = pointOffers;
+    super();
+    this.#point = point;
+    this.#pointDestinations = pointDestinations;
+    this.#pointOffers = pointOffers;
   }
 
-  getTemplate() {
-    return createPointTemplate({
-      point: this.point,
-      pointDestinations: this.pointDestinations,
-      pointOffers: this.pointOffers,
-    });
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
+  get template() {
+    return createPointTemplate(
+      this.#point,
+      this.#pointDestinations,
+      this.#pointOffers
+    );
   }
 }
