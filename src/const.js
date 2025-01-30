@@ -53,13 +53,13 @@ const OFFER_COUNT = 3;
 
 const POINT_COUNT = 6;
 
-const POINT_BLANCK = {
+const POINT_BLANK = {
   basePrice: 0,
-  dateFrom: null,
-  dateTo: null,
+  dateFrom: new Date(),
+  dateTo: new Date(),
   destination: null,
   isFavorite: false,
   offers: [],
   type: 'Taxi',
 };
-export { TYPES, DESCRIPTIONS, CITIES, OFFERS, PRICE, DURATION, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT, POINT_BLANCK };
+export { TYPES, DESCRIPTIONS, CITIES, OFFERS, PRICE, DURATION, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT, POINT_BLANK };

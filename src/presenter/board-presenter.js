@@ -50,7 +50,11 @@ export default class BoardPresenter {
       point,
       pointDestinations: this.#destinations.getById(point.destination),
       pointOffers: this.#offers.getByType(point.type),
-      onFormSubmit: () => {
+      onSunmitClick: () => {
+        replaceFormToPoint();
+        document.removeEventListener('keydown', escKeyDownHandler);
+      },
+      onResetClick: () => {
         replaceFormToPoint();
         document.removeEventListener('keydown', escKeyDownHandler);
       }

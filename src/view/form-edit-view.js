@@ -1,10 +1,11 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { formatStringToDayTime } from '../utils.js';
-import { POINT_BLANCK } from '../const.js';
+import { POINT_BLANK } from '../const.js';
 
 function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
   const { type, dateFrom, dateTo, basePrice } = point;
   const { name, description, pictures } = pointDestinations;
+
   return `
         <li class="trip-events__item">
             <form class="event event--edit" action="#" method="post">
@@ -12,7 +13,7 @@ function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
                 <div class="event__type-wrapper">
                 <label class="event__type  event__type-btn" for="event-type-toggle-1">
                     <span class="visually-hidden">Choose event type</span>
-                      <img class="event__type-icon" width="17" height="17" src="img/icons/${type.toLowerCase()}.png" alt="Event type icon">
+                    <img class="event__type-icon" width="17" height="17" src="img/icons/${type.toLowerCase()}.png" alt="Event type icon">
                 </label>
                 <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -97,6 +98,9 @@ function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
 
                 <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
                 <button class="event__reset-btn" type="reset">Cancel</button>
+                <button class="event__rollup-btn" type="button">
+                  <span class="visually-hidden">Open event</span>
+                </button>
             </header>
             <section class="event__details">
                 <section class="event__section  event__section--offers">
@@ -112,6 +116,7 @@ function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
                     <span class="event__offer-price">${offer.price}</span>
                     </label>
                 </div>`).join('')}
+                <div class="event__available-offers">
                 </div>
                 </section>
 
@@ -136,14 +141,17 @@ export default class FormEditView extends AbstractView {
   #point = null;
   #pointDestinations = null;
   #pointOffers = null;
-  #handleFormSubmit = null;
+  #onResetClick = null;
+  #onSunmitClick = null;
 
-  constructor({ point = POINT_BLANCK, pointDestinations, pointOffers, onFormSubmit }) {
+  constructor({ point = POINT_BLANK, pointDestinations, pointOffers, onSunmitClick, onResetClick }) {
     super();
     this.#point = point;
     this.#pointDestinations = pointDestinations;
     this.#pointOffers = pointOffers;
-    this.#handleFormSubmit = onFormSubmit;
+    this.#onResetClick = onResetClick;
+    this.#onSunmitClick = onSunmitClick;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#resetButtonClickHandler);
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
   }
 
@@ -155,8 +163,13 @@ export default class FormEditView extends AbstractView {
     });
   }
 
+  #resetButtonClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#onResetClick();
+  };
+
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
-    this.#handleFormSubmit();
+    this.#onSunmitClick();
   };
 }
