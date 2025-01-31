@@ -5,7 +5,7 @@ function generateMockOffer() {
   return {
     id: crypto.randomUUID(),
     title: getRandomArrayElement(OFFERS),
-    price: getRandomPositiveInteger(PRICE.MIN, PRICE.MAX),
+    price: getRandomPositiveInteger(PRICE.min, PRICE.max),
   };
 }
 
