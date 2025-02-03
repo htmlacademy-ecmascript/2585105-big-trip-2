@@ -1,4 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
+import { FILTER } from '../const.js';
 
 function createFilterTemplate() {
   return `

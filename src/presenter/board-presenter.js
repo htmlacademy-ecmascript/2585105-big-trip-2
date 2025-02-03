@@ -3,6 +3,7 @@ import EditList from '../view/event-list-view.js';
 import FormEditView from '../view/form-edit-view.js';
 import PointView from '../view/point-view.js';
 import { render, replace } from '../framework/render.js';
+import EmptyListView from '../view/list-empty.js'
 
 export default class BoardPresenter {
   #sortComponent = new SortView();
@@ -20,6 +21,10 @@ export default class BoardPresenter {
   }
 
   init() {
+    if (this.#points.length === 0) {
+      render(new EmptyListView(), this.#container);
+      return;
+    }
     render(this.#sortComponent, this.#container);
     render(this.#editListComponent, this.#container);
     this.#points.forEach((point) => {
