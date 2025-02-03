@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { formatStringToDayTime } from '../utils.js';
+import { formatStringToDayTime } from '../utils/day.js';
 import { POINT_BLANK } from '../const.js';
 
 function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
