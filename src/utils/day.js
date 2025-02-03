@@ -52,10 +52,23 @@ function getScheduleDAte(date) {
   return dayjs(date).format('DD/MM/YY HH:mm');
 }
 
+function isPointFuture(point) {
+  return dayjs().isBefore(point.dateFrom);
+}
+function isPointPresent(point) {
+  return dayjs().isBefore(point.dateFrom) && dayjs().isAfter(point.dateTo);
+}
+function isPointPast(point) {
+  return dayjs().isAfter(point.dateTo);
+}
+
 export {
   formatStringToDayTime,
   formatStringToShortDate,
   formatStringToTime,
   getPointDuration,
   getScheduleDAte,
+  isPointFuture,
+  isPointPresent,
+  isPointPast,
 };
