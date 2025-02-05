@@ -36,12 +36,20 @@ export default class BoardPresenter {
   }
 
   #renderPoint(point) {
+    const escKeyDownHandler = (evt) => {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        replaceFormToPoint();
+        document.removeEventListener('keydown', escKeyDownHandler);
+      }
+    };
+
     const pointComponent = new PointView({
       point,
       pointDestinations: this.#destinationsModel.getById(point.destination),
       pointOffers: this.#offersModel.getByType(point.type),
       onEditClick: () => {
-        this.#replacePointToForm(pointComponent, point);
+        replacePointToForm();
         document.addEventListener('keydown', escKeyDownHandler);
       }
     });
@@ -51,35 +59,23 @@ export default class BoardPresenter {
       pointDestinations: this.#destinationsModel.getById(point.destination),
       pointOffers: this.#offersModel.getByType(point.type),
       onSubmitClick: () => {
-        this.#replaceFormToPoint(pointEditComponent, pointComponent);
+        replaceFormToPoint();
         document.removeEventListener('keydown', escKeyDownHandler);
       },
       onResetClick: () => {
-        this.#replaceFormToPoint(pointEditComponent, pointComponent);
+        replaceFormToPoint();
         document.removeEventListener('keydown', escKeyDownHandler);
       }
     });
 
-    const escKeyDownHandler = (evt) => {
-      if (evt.key === 'Escape') {
-        evt.preventDefault();
-        this.#replaceFormToPoint(pointEditComponent, pointComponent);
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
-    };
+    function replacePointToForm() {
+      replace(pointEditComponent, pointComponent);
+    }
+
+    function replaceFormToPoint() {
+      replace(pointComponent, pointEditComponent);
+    }
 
     render(pointComponent, this.#editListComponent.element);
-  }
-
-  #replacePointToForm(pointComponent, point) {
-    replace(new FormEditView({
-      point,
-      pointDestinations: this.#destinationsModel.getById(point.destination),
-      pointOffers: this.#offersModel.getByType(point.type),
-    }), pointComponent);
-  }
-
-  #replaceFormToPoint(pointEditComponent, pointComponent) {
-    replace(pointComponent, pointEditComponent);
   }
 }
