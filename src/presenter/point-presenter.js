@@ -23,24 +23,15 @@ export default class PointPresenter {
       point: this.#point,
       pointDestinations: this.#destinationsModel.getById(point.destination),
       pointOffers: this.#offersModel.getByType(point.type),
-      onEditClick: () => {
-        this.#replacePointToForm();
-        document.addEventListener('keydown', this.#escKeyDownHandler);
-      },
+      onEditClick: this.#handleEditClick,
     });
 
     this.#pointEditComponent = new FormEditView({
       point: this.#point,
       pointDestinations: this.#destinationsModel.getById(point.destination),
       pointOffers: this.#offersModel.getByType(point.type),
-      onSubmitClick: () => {
-        this.#replaceFormToPoint();
-        document.removeEventListener('keydown', this.#escKeyDownHandler);
-      },
-      onResetClick: () => {
-        this.#replaceFormToPoint();
-        document.removeEventListener('keydown', this.#escKeyDownHandler);
-      },
+      onSubmitClick: this.#handleFormSubmit,
+      onResetClick: this.#handleFormClose,
     });
 
     render(this.#pointComponent, this.#container);
@@ -60,5 +51,20 @@ export default class PointPresenter {
       this.#replaceFormToPoint();
       document.removeEventListener('keydown', this.#escKeyDownHandler);
     }
+  };
+
+  #handleEditClick = () => {
+    this.#replacePointToForm();
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
+  };
+
+  #handleFormSubmit = () => {
+    this.#replaceFormToPoint();
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
+  };
+
+  #handleFormClose = () => {
+    this.#replaceFormToPoint();
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
 }
