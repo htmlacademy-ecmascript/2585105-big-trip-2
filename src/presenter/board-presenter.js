@@ -1,8 +1,9 @@
 import SortView from '../view/sort-view.js';
 import EditList from '../view/event-list-view.js';
-import PointPresenter from './point-presenter.js'
-import { render, replace } from '../framework/render.js';
+import PointPresenter from './point-presenter.js';
+import { render } from '../framework/render.js';
 import EmptyListView from '../view/list-empty.js';
+import { updateItem } from '../utils/common.js';
 
 export default class BoardPresenter {
   #sortComponent = new SortView();
@@ -27,16 +28,22 @@ export default class BoardPresenter {
     this.#renderBoard();
   }
 
+  #handlePointsChange = (updatedTask) => {
+    this.#points = updateItem(this.#points, updatedTask);
+    this.#pointPresenters.get(updatedTask.id).init(updatedTask);
+  };
+
   #renderPoint = (point) => {
     const pointPresenter = new PointPresenter({
       container: this.#editListComponent.element,
       destinationsModel: this.#destinationsModel,
       offersModel: this.#offersModel,
+      onDataChange: this.#handlePointsChange,
     });
 
     pointPresenter.init(point);
     this.#pointPresenters.set(point.id, pointPresenter);
-  }
+  };
 
   #renderPoints = () => {
     this.#points.forEach((point) => {
