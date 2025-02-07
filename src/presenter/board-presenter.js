@@ -28,6 +28,10 @@ export default class BoardPresenter {
     this.#renderBoard();
   }
 
+  #handleModeChange = () => {
+    this.#pointPresenters.forEach((presenter) => presenter.resetView());
+  };
+
   #handlePointsChange = (updatedTask) => {
     this.#points = updateItem(this.#points, updatedTask);
     this.#pointPresenters.get(updatedTask.id).init(updatedTask);
@@ -39,6 +43,7 @@ export default class BoardPresenter {
       destinationsModel: this.#destinationsModel,
       offersModel: this.#offersModel,
       onDataChange: this.#handlePointsChange,
+      onModeChange: this.#handleModeChange
     });
 
     pointPresenter.init(point);
@@ -67,7 +72,6 @@ export default class BoardPresenter {
   #renderEmpty = () => {
     if (this.#points.length === 0) {
       render(new EmptyListView(), this.#container);
-      return;
     }
   };
 
