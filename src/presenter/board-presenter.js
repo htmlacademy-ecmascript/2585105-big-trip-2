@@ -1,6 +1,6 @@
 import SortView from '../view/sort-view.js';
 import EditList from '../view/event-list-view.js';
-import PointPresenter from './point-presenter.js';
+import PointPresenter from './point-presenter.js'
 import { render, replace } from '../framework/render.js';
 import EmptyListView from '../view/list-empty.js';
 
@@ -56,9 +56,9 @@ export default class BoardPresenter {
   };
 
   #renderBoard = () => {
+    this.#renderSort();
     this.#renderEmpty();
     this.#renderPointContainer();
     this.#renderPoints();
-    this.#renderSort();
   };
 }
