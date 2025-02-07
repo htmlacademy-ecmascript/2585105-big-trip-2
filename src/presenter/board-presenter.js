@@ -13,6 +13,8 @@ export default class BoardPresenter {
   #offersModel = null;
   #points = [];
 
+  #pointPresenters = new Map();
+
   constructor({ container, destinationsModel, offersModel, pointsModel }) {
     this.#container = container;
     this.#pointsModel = pointsModel;
@@ -33,16 +35,22 @@ export default class BoardPresenter {
     });
 
     pointPresenter.init(point);
-  };
-
-  #renderSort = () => {
-    render(this.#sortComponent, this.#container);
-  };
+    this.#pointPresenters.set(point.id, pointPresenter);
+  }
 
   #renderPoints = () => {
     this.#points.forEach((point) => {
       this.#renderPoint(point);
     });
+  };
+
+  #clearPoints() {
+    this.#pointPresenters.forEach((presenter) => presenter.destroy());
+    this.#pointPresenters.clear();
+  }
+
+  #renderSort = () => {
+    render(this.#sortComponent, this.#container);
   };
 
   #renderPointContainer = () => {
@@ -52,6 +60,7 @@ export default class BoardPresenter {
   #renderEmpty = () => {
     if (this.#points.length === 0) {
       render(new EmptyListView(), this.#container);
+      return;
     }
   };
 
