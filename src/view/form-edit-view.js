@@ -5,6 +5,8 @@ import { POINT_BLANK, TYPES } from '../const.js';
 function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
   const { type, dateFrom, dateTo, basePrice } = point;
   const { name, description, pictures } = pointDestinations;
+  const hasOffers = pointOffers.length > 0;
+  const hasDestinations = pictures.length > 0 && name && description;
 
   return `
         <li class="trip-events__item">
@@ -64,34 +66,35 @@ function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
                 </button>
             </header>
             <section class="event__details">
+                ${hasOffers ? `
                 <section class="event__section  event__section--offers">
-                <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+                  <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
-                <div class="event__available-offers">
-                ${pointOffers.map((offer) => `
-                <div class="event__offer-selector">
-                    <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
-                    <label class="event__offer-label" for="event-offer-luggage-1">
-                    <span class="event__offer-title">${offer.title}</span>
-                    &plus;&euro;&nbsp;
-                    <span class="event__offer-price">${offer.price}</span>
-                    </label>
-                </div>`).join('')}
-                <div class="event__available-offers">
-                </div>
-                </section>
+                  <div class="event__available-offers">
+                    ${pointOffers.map((offer) => `
+                      <div class="event__offer-selector">
+                        <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
+                        <label class="event__offer-label" for="event-offer-luggage-1">
+                          <span class="event__offer-title">${offer.title}</span>
+                          &plus;&euro;&nbsp;
+                          <span class="event__offer-price">${offer.price}</span>
+                        </label>
+                      </div>`).join('')}
+                  </div>
+                </section>` : ''}
 
+                ${hasDestinations ? `
                 <section class="event__section  event__section--destination">
-                <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-                <p class="event__destination-description">${name} ${description}</p>
+                  <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+                  <p class="event__destination-description">${name} ${description}</p>
 
-                <div class="event__photos-container">
-                ${pictures.map((picture) => `
-                    <div class="event__photos-tape">
-                    <img class="event__photo" src="${picture.src}" alt="${picture.description}">
-                    </div>`).join('')}
-                </div>
-                </section>
+                  <div class="event__photos-container">
+                    ${pictures.map((picture) => `
+                      <div class="event__photos-tape">
+                        <img class="event__photo" src="${picture.src}" alt="${picture.description}">
+                      </div>`).join('')}
+                  </div>
+                </section>` : ''}
             </section>
             </form>
         </li>

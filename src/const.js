@@ -55,8 +55,8 @@ const POINT_COUNT = 6;
 
 const POINT_BLANK = {
   basePrice: 0,
-  dateFrom: new Date(),
-  dateTo: new Date(),
+  dateFrom: null,
+  dateTo: null,
   destination: null,
   isFavorite: false,
   offers: [],
@@ -69,8 +69,10 @@ const FILTER = {
   present: 'Present',
   past: 'Past',
 };
+
 const MODE = {
   default: 'default',
   editing: 'editing',
 };
+
 export { TYPES, DESCRIPTIONS, CITIES, OFFERS, PRICE, DURATION, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT, POINT_BLANK, FILTER, MODE };

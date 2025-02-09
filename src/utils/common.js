@@ -1,3 +1,4 @@
+// Функция, возвращающая случайное целое число
 
 const getRandomPositiveInteger = (min, max) => {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
@@ -6,10 +7,12 @@ const getRandomPositiveInteger = (min, max) => {
   return Math.floor(result);
 };
 
+// Функция для получения случайного элемента массива
 
 const getRandomArrayElement = (elements) =>
   elements[getRandomPositiveInteger(0, elements.length - 1)];
 
+// Функция для обновления точек
 
 const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
 
