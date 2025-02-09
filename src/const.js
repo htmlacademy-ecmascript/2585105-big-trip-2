@@ -36,12 +36,12 @@ const OFFERS = [
   'Travel by train',
 ];
 
-const price = {
+const Price = {
   MIN: 20,
   MAX: 2000,
 };
 
-const duration = {
+const Duration = {
   HOUR: 2,
   DAY: 1,
   MIN: 20,
@@ -60,7 +60,7 @@ const FilterType = {
   PAST: 'Past',
 };
 
-const mode = {
+const Mode = {
   DEFAULT: 'default',
   EDITING: 'editing',
 };
@@ -71,4 +71,4 @@ const SortType = {
   PRICE: 'price',
 };
 
-export { TYPES, DESCRIPTIONS, CITIES, OFFERS, price, duration, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT, FilterType, mode, SortType };
+export { TYPES, DESCRIPTIONS, CITIES, OFFERS, Price, Duration, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT, FilterType, Mode, SortType };
