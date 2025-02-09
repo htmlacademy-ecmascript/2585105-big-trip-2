@@ -20,7 +20,7 @@ function createSortTemplate() {
             </div>
 
             <div class="trip-sort__item  trip-sort__item--${SortType.PRICE}">
-            <input id="sort-${SortType.PRICE}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.PRICE}" data-sort-type="${SortType.PRICE} checked>
+            <input id="sort-${SortType.PRICE}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.PRICE}" data-sort-type="${SortType.PRICE}">
             <label class="trip-sort__btn" for="sort-${SortType.PRICE}">Price</label>
             </div>
 
