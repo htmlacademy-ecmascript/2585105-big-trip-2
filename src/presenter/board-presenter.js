@@ -70,7 +70,7 @@ export default class BoardPresenter {
   #renderSort = () => {
     this.#sortComponent = new SortView({
       onSortTypeChange: this.#handleSortTypeChange
-    })
+    });
     render(this.#sortComponent, this.#container);
   };
 
@@ -100,7 +100,7 @@ export default class BoardPresenter {
     this.#sortPoints(sortType);
     this.#clearPoints();
     this.#renderPoints();
-  }
+  };
 
   #renderPointContainer = () => {
     render(this.#editListComponent, this.#container);
