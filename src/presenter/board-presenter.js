@@ -6,7 +6,7 @@ import EmptyListView from '../view/list-empty.js';
 import { updateItem } from '../utils/common.js';
 
 export default class BoardPresenter {
-  #sortComponent = new SortView();
+  #sortComponent = null;
   #editListComponent = new EditList();
   #container = null;
   #pointsModel = null;
@@ -62,8 +62,15 @@ export default class BoardPresenter {
   }
 
   #renderSort = () => {
+    this.#sortComponent = new SortView({
+      onSortTypeChange: this.#handleSortTypeChange
+    })
     render(this.#sortComponent, this.#container);
   };
+
+  #handleSortTypeChange = (sortType) => {
+
+  }
 
   #renderPointContainer = () => {
     render(this.#editListComponent, this.#container);

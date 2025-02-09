@@ -20,7 +20,7 @@ function createSortTemplate() {
             </div>
 
             <div class="trip-sort__item  trip-sort__item--${SortType.PRICE}">
-            <input id="sort-${SortType.PRICE}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.PRICE}" data-sort-type="${SortType.PRICE}" checked>
+            <input id="sort-${SortType.PRICE}" class="trip-sort__input  visually-hidden" type="radio" name="trip-sort" value="sort-${SortType.PRICE}" data-sort-type="${SortType.PRICE} checked>
             <label class="trip-sort__btn" for="sort-${SortType.PRICE}">Price</label>
             </div>
 
@@ -33,7 +33,25 @@ function createSortTemplate() {
 }
 
 export default class SortView extends AbstractView {
+  #handleSortTypeChange = null;
+
+  constructor({ onSortTypeChange }) {
+    super();
+    this.#handleSortTypeChange = onSortTypeChange;
+
+    this.element.addEventListener('click', this.#sortTypeChangeHandler);
+  }
+
   get template() {
     return createSortTemplate();
   }
+
+  #sortTypeChangeHandler = (evt) => {
+    if (evt.target.tagName !== 'INPUT') {
+      return;
+    }
+
+    evt.preventDefault();
+    this.#handleSortTypeChange(evt.target.dataset.sortType);
+  };
 }
