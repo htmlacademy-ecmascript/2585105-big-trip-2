@@ -36,15 +36,15 @@ const OFFERS = [
   'Travel by train',
 ];
 
-const PRICE = {
-  min: 20,
-  max: 2000,
+const price = {
+  MIN: 20,
+  MAX: 2000,
 };
 
-const DURATION = {
-  hour: 2,
-  day: 1,
-  min: 20,
+const duration = {
+  HOUR: 2,
+  DAY: 1,
+  MIN: 20,
 };
 
 const DESTINATION_COUNT = 3;
@@ -53,26 +53,16 @@ const OFFER_COUNT = 3;
 
 const POINT_COUNT = 6;
 
-const POINT_BLANK = {
-  basePrice: 0,
-  dateFrom: null,
-  dateTo: null,
-  destination: null,
-  isFavorite: false,
-  offers: [],
-  type: 'Taxi',
+const FilterType = {
+  EVERYTHING: 'Everything',
+  FUTURE: 'Future',
+  PRESENT: 'Present',
+  PAST: 'Past',
 };
 
-const FILTER = {
-  everything: 'Everything',
-  future: 'Future',
-  present: 'Present',
-  past: 'Past',
-};
-
-const MODE = {
-  default: 'default',
-  editing: 'editing',
+const mode = {
+  DEFAULT: 'default',
+  EDITING: 'editing',
 };
 
 const SortType = {
@@ -80,4 +70,5 @@ const SortType = {
   TIME: 'time',
   PRICE: 'price',
 };
-export { TYPES, DESCRIPTIONS, CITIES, OFFERS, PRICE, DURATION, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT, POINT_BLANK, FILTER, MODE, SortType };
+
+export { TYPES, DESCRIPTIONS, CITIES, OFFERS, price, duration, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT, FilterType, mode, SortType };
