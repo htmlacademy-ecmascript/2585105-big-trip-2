@@ -7,8 +7,7 @@ const sortPointByTime = (pointA, pointB) => {
   return durationPointB - durationPointA;
 };
 
-const sortPointByPrice = (pointA, pointB) =>
-  pointB.basePrice - pointA.basePrice;
+const sortPointByPrice = (pointA, pointB) => pointB.basePrice - pointA.basePrice;
 
 const sortPointByDay = (pointA, pointB) => {
   const dateA = dayjs(pointA.dateFrom).valueOf();
