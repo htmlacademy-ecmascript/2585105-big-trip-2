@@ -1,17 +1,17 @@
 import { getRandomPositiveInteger } from '../utils/common.js';
-import { PRICE } from '../const.js';
+import { Price } from '../const.js';
 import { getDate } from './utils.js';
 
 function generateMockPoint(type, destinationId, offerIds) {
   return {
     id: crypto.randomUUID(),
-    basePrice: getRandomPositiveInteger(PRICE.min, PRICE.max),
+    basePrice: getRandomPositiveInteger(Price.MIN, Price.MAX),
     dateFrom: getDate({ next: false }),
     dateTo: getDate({ next: true }),
     destination: destinationId,
-    isFavorite: !!(getRandomPositiveInteger(0, 1)),
+    isFavorite: !!getRandomPositiveInteger(0, 1),
     offers: offerIds,
-    type
+    type,
   };
 }
 
