@@ -1,4 +1,4 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { formatStringToDayTime } from '../utils/day.js';
 import { TYPES } from '../const.js';
 
@@ -12,7 +12,8 @@ const POINT_BLANK = {
   type: 'Taxi',
 };
 
-function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
+function createFormEditTemplate({ state, pointDestinations, pointOffers }) {
+  const point = state;
   const { type, dateFrom, dateTo, basePrice } = point;
   const { name, description, pictures } = pointDestinations;
   const hasOffers = pointOffers.length > 0;
@@ -111,7 +112,7 @@ function createFormEditTemplate({ point, pointDestinations, pointOffers }) {
     `;
 }
 
-export default class FormEditView extends AbstractView {
+export default class FormEditView extends AbstractStatefulView {
   #point = null;
   #pointDestinations = null;
   #pointOffers = null;
@@ -120,18 +121,17 @@ export default class FormEditView extends AbstractView {
 
   constructor({ point = POINT_BLANK, pointDestinations, pointOffers, onSubmitClick, onResetClick }) {
     super();
-    this.#point = point;
+    this._setState(FormEditView.parsePointToState(point));
     this.#pointDestinations = pointDestinations;
     this.#pointOffers = pointOffers;
     this.#onResetClick = onResetClick;
     this.#onSubmitClick = onSubmitClick;
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#resetButtonClickHandler);
-    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+    this._restoreHandlers();
   }
 
   get template() {
     return createFormEditTemplate({
-      point: this.#point,
+      state: this._state,
       pointDestinations: this.#pointDestinations,
       pointOffers: this.#pointOffers,
     });
@@ -145,5 +145,19 @@ export default class FormEditView extends AbstractView {
   #formSubmitHandler = (evt) => {
     evt.preventDefault();
     this.#onSubmitClick(this.#point);
+  };
+
+  _restoreHandlers = () => {
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#resetButtonClickHandler);
+    this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
+  };
+
+  static parsePointToState(point) {
+    return { ...point };
+  }
+
+  static parseStateToPoint = (state) => {
+    const point = { ...state };
+    return point;
   };
 }
