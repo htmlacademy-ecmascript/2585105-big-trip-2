@@ -225,7 +225,7 @@ export default class FormEditView extends AbstractStatefulView {
     this._setState({
       point: {
         ...this._state.point,
-        basePrice: evt.target.valueAsNumber
+        basePrice: evt.target.value
       }
     });
   };
