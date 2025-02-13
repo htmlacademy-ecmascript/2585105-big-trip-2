@@ -16,7 +16,6 @@ export default class BoardPresenter {
   #pointsModel = null;
   #destinationsModel = null;
   #offersModel = null;
-  #points = [];
 
   #pointPresenters = new Map();
 
@@ -25,7 +24,10 @@ export default class BoardPresenter {
     this.#pointsModel = pointsModel;
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
-    this.#points = [...this.#pointsModel.get()];
+  }
+
+  get points() {
+    return this.#pointsModel.get();
   }
 
   init() {
@@ -37,7 +39,7 @@ export default class BoardPresenter {
   };
 
   #handlePointsChange = (updatedPoints) => {
-    this.#points = updateItem(this.#points, updatedPoints);
+    this.points = updateItem(this.points, updatedPoints);
     this.#sourcedPoints = updateItem(this.#sourcedPoints, updatedPoints);
     this.#pointPresenters.get(updatedPoints.id).init(updatedPoints);
   };
@@ -56,7 +58,7 @@ export default class BoardPresenter {
   };
 
   #renderPoints = () => {
-    this.#points.forEach((point) => {
+    this.points.forEach((point) => {
       this.#renderPoint(point);
     });
   };
@@ -76,16 +78,16 @@ export default class BoardPresenter {
   #sortPoints(sortType) {
     switch (sortType) {
       case SortType.TIME:
-        this.#points.sort(sortPointByTime);
+        this.points.sort(sortPointByTime);
         break;
       case SortType.PRICE:
-        this.#points.sort(sortPointByPrice);
+        this.points.sort(sortPointByPrice);
         break;
       case SortType.DAY:
-        this.#points.sort(sortPointByDay);
+        this.points.sort(sortPointByDay);
         break;
       default:
-        this.#points = [...this.#sourcedPoints];
+        this.points = [...this.#sourcedPoints];
     }
 
     this.#currentSortType = sortType;
@@ -106,7 +108,7 @@ export default class BoardPresenter {
   };
 
   #renderEmpty = () => {
-    if (this.#points.length === 0) {
+    if (this.points.length === 0) {
       render(new EmptyListView(), this.#container);
     }
   };
