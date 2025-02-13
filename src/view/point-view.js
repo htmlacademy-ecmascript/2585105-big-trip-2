@@ -49,7 +49,7 @@ const createPointTemplate = ({ point, pointDestinations, pointOffers }) => {
             </div>
         </li>
     `;
-}
+};
 
 export default class PointView extends AbstractView {
   #point = null;
