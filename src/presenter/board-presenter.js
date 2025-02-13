@@ -3,7 +3,7 @@ import EditList from '../view/event-list-view.js';
 import PointPresenter from './point-presenter.js';
 import { render } from '../framework/render.js';
 import EmptyListView from '../view/list-empty.js';
-import { SortType, FilterType } from '../const.js';
+import { SortType, FilterType, UpdateType, UserAction } from '../const.js';
 import { sortPointByTime, sortPointByPrice, sortPointByDay } from '../utils/sort.js';
 import { filter } from '../utils/filter.js';
 
@@ -16,7 +16,7 @@ export default class BoardPresenter {
   #destinationsModel = null;
   #offersModel = null;
   #filterModel = null;
-
+  #filterType = FilterType.EVERYTHING;
   #pointPresenters = new Map();
 
   constructor({ container, destinationsModel, offersModel, pointsModel, filterModel }) {
@@ -24,13 +24,14 @@ export default class BoardPresenter {
     this.#pointsModel = pointsModel;
     this.#offersModel = offersModel;
     this.#destinationsModel = destinationsModel;
+    this.#filterModel = filterModel;
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
-    const filterType = this.#filterModel.get();
-    const filteredPoints = filter[filterType](this.#pointsModel.get());
+    this.#filterType = this.#filterModel.get();
+    const filteredPoints = filter[this.#filterType](this.#pointsModel.get());
     switch (this.#currentSortType) {
       case SortType.TIME:
         return filteredPoints.sort(sortPointByTime);
@@ -55,7 +56,7 @@ export default class BoardPresenter {
       container: this.#editListComponent.element,
       destinationsModel: this.#destinationsModel,
       offersModel: this.#offersModel,
-      onDataChange: this.#handlePointsChange,
+      onDataChange: this.#handleViewAction,
       onModeChange: this.#handleModeChange
     });
 
@@ -81,12 +82,40 @@ export default class BoardPresenter {
     render(this.#sortComponent, this.#container);
   };
 
-  #handleModelEvent = (updateType, date) => {
+  #clearBoard = ({ resetSortType = false } = {}) => {
+    this.#clearPoints();
+    remove(this.#sortComponent);
+  };
+
+  #handleViewAction = (actionType, updateType, update) => {
+    switch (actionType) {
+      case UserAction.UPDATE_POINT:
+        this.#pointsModel.updatePoint(updateType, update);
+        break;
+      case UserAction.ADD_POINT:
+        this.#pointsModel.addPoint(updateType, update);
+        break;
+      case UserAction.DELETE_POINT:
+        this.#pointsModel.deletePoint(updateType, update);
+        break;
+    }
+  };
+
+  #handleModelEvent = (updateType, data) => {
     switch (updateType) {
       case UpdateType.PATCH:
-        this.pointsPresenters?.get
+        this.#pointPresenters.get(data.id).init(data);
+        break;
+      case UpdateType.MINOR:
+        this.#clearBoard();
+        this.#renderBoard();
+        break;
+      case UpdateType.MAJOR:
+        this.#clearBoard({ resetSortType: true });
+        this.#renderBoard();
+        break;
     }
-  }
+  };
 
   #handleSortTypeChange = (sortType) => {
     if (this.#currentSortType === sortType) {
@@ -114,4 +143,3 @@ export default class BoardPresenter {
     this.#renderPoints();
   };
 }
-

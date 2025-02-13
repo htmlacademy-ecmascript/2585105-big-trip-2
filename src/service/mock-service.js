@@ -70,3 +70,38 @@ export default class MockService {
     });
   }
 }
+let pointsData = [];
+
+updatePoint(updatedData) {
+  const index = pointsData.findIndex((point) => point.id === updatedData.id);
+
+  if (index !== -1) {
+    pointsData[index] = updatedData;
+    return true; // Успешное обновление
+  }
+
+  return false; // Не найдена такая точка для обновления
+}
+
+addPoint(data) {
+  const newId = crypto.randomUUID();
+
+  const newElement = { ...data, id: newId };
+
+  pointsData.push(newElement);
+
+  return newElement;
+}
+
+deleteById(idToDelete){
+  const indexToDelete = pointsData.findIndex(item => item.id === idToDelete)
+
+  if (indexToDelete !== -1) {
+    pointsData.splice(indexToDelete, 1)
+    return true;//Успешное удаление
+
+  }
+
+  return false;//Не найдена такая запись для удаления
+
+}
