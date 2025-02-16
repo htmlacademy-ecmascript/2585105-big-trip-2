@@ -86,15 +86,13 @@ const createOffersTemplate = (hasOffers, offersByType, point) => (
 );
 
 const createPicturesTemplate = (pictures) =>
-  pictures && pictures.length > 0 ? // Проверяем наличие элементов в массиве
+  `${(pictures) ?
     `<div class="event__photos-tape">
-      ${pictures.map((picture) =>
-      `<img class="event__photo" src="${picture.src}" alt="${picture.description || ''}">`).join('')}
-    </div>` :
-    ''; // Если нет фотографий — ничего не отображаем
-
-// Для защиты от XSS можно использовать функцию для экранирования данных,
-// например DOMPurify из библиотеки dompurify.
+  ${(pictures).map((picture) =>
+      `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`
+    ).join('')}
+    </div>`
+    : ''}`;
 
 const createDestinationsTemplate = (hasDestinations, destinationById) => `
   ${hasDestinations ? `
@@ -310,4 +308,3 @@ export default class FormEditView extends AbstractStatefulView {
   static parsePointToState = ({ point }) => ({ point });
   static parseStateToPoint = (state) => state.point;
 }
-
