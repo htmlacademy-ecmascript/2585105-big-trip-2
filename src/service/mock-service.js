@@ -56,6 +56,7 @@ export default class MockService {
       const destination = getRandomArrayElement(this.#destinations);
 
       const hasOffers = getRandomPositiveInteger(0, 1);
+
       const offersByType = this.#offers.find(
         (offerByType) => offerByType.type === type
       );
@@ -68,5 +69,16 @@ export default class MockService {
 
       return generateMockPoint(type, destination.id, offerIds);
     });
+  }
+
+  updatePoint(updatedPoint) {
+    return updatedPoint;
+  }
+
+  addPoint(data) {
+    return { ...data, id: crypto.randomUUID() };
+  }
+
+  deletePoint() {
   }
 }
