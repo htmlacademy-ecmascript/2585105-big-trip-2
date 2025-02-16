@@ -88,9 +88,7 @@ const createOffersTemplate = (hasOffers, offersByType, point) => (
 const createPicturesTemplate = (pictures) =>
   `${(pictures) ?
     `<div class="event__photos-tape">
-  ${(pictures).map((picture) =>
-      `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`
-    ).join('')}
+  ${(pictures).map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`).join('')}
     </div>`
     : ''}`;
 
