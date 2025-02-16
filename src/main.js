@@ -7,6 +7,7 @@ import OffersModel from './model/offers-model.js';
 import PointsModel from './model/points-model.js';
 import FilterPresenter from './presenter/filter-presenter.js';
 import FilterModel from './model/filter-model.js';
+import NewPointButtonPresenter from './presenter/new-point-button-presenter.js';
 
 const filterElement = document.querySelector('.trip-controls__filters');
 const pageMain = document.querySelector('.page-main');
@@ -19,12 +20,17 @@ const offersModel = new OffersModel(mockService);
 const pointsModel = new PointsModel(mockService);
 const filterModel = new FilterModel();
 
+const newPointButtonPresenter = new NewPointButtonPresenter({
+  container: infoTripElement,
+});
+
 const boardPresenter = new BoardPresenter({
   container: eventsListElement,
   destinationsModel,
   offersModel,
   pointsModel,
   filterModel,
+  newPointButtonPresenter: newPointButtonPresenter
 });
 
 const filterPresenter = new FilterPresenter({
@@ -33,6 +39,10 @@ const filterPresenter = new FilterPresenter({
 });
 
 render(new InfoTrip(), infoTripElement, RenderPosition.AFTERBEGIN);
+
+newPointButtonPresenter.init({
+  onButtonClick: boardPresenter.newPointButtonClickHandler
+});
 
 boardPresenter.init();
 filterPresenter.init();
