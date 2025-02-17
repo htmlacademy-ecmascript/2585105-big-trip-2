@@ -2,6 +2,7 @@ import FormEditView from '../view/form-edit-view.js';
 import PointView from '../view/point-view.js';
 import { Mode, UserAction, UpdateType } from '../const.js';
 import { remove, render, replace } from '../framework/render.js';
+import { isBigDifference } from '../utils/day.js';
 
 export default class PointPresenter {
   #container = null;
@@ -108,8 +109,13 @@ export default class PointPresenter {
     this.#replacePointToForm();
   };
 
-  #handleFormSubmit = (point) => {
-    this.#handleDataChange(point);
+  #handleFormSubmit = (updatePoint) => {
+    const isMinor = isBigDifference(updatePoint, this.#point);
+
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      isMinor ? UpdateType.MINOR : UpdateType.PATCH,
+    );
     this.#replaceFormToPoint();
   };
 
