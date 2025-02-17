@@ -9,7 +9,7 @@ export default class FilterModel extends Observable {
   }
 
   set(updateType, update) {
-    this.#filter = update; // Используем переданное новое значение фильтрации
+    this.#filter = update;
     this._notify(updateType, update);
   }
 }
