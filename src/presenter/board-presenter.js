@@ -3,10 +3,9 @@ import EditList from '../view/event-list-view.js';
 import PointPresenter from './point-presenter.js';
 import { render, remove } from '../framework/render.js';
 import EmptyListView from '../view/list-empty.js';
-import { SortType, FilterType, UpdateType, UserAction } from '../const.js';
+import { SortType, UpdateType, UserAction } from '../const.js';
 import { sortPointByTime, sortPointByPrice, sortPointByDay } from '../utils/sort.js';
 import { filter } from '../utils/filter.js';
-import NewPointPresenter from './new-point-presenter.js';
 
 export default class BoardPresenter {
   #sortComponent = null;
