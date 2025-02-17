@@ -109,12 +109,13 @@ export default class PointPresenter {
     this.#replacePointToForm();
   };
 
-  #handleFormSubmit = (updatePoint) => {
-    const isMinor = isBigDifference(updatePoint, this.#point);
+  #handleFormSubmit = (updatedPoint) => {
+    const isMinor = isBigDifference(updatedPoint, this.#point);
 
     this.#handleDataChange(
       UserAction.UPDATE_POINT,
       isMinor ? UpdateType.MINOR : UpdateType.PATCH,
+      updatedPoint
     );
     this.#replaceFormToPoint();
   };
