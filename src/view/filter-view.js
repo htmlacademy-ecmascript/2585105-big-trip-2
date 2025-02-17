@@ -42,3 +42,4 @@ export default class FilterView extends AbstractView {
     this._handleFilterTypeChange(evt.target.dataset.item);
   };
 }
+
