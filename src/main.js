@@ -19,7 +19,6 @@ const destinationsModel = new DestinationsModel(mockService);
 const offersModel = new OffersModel(mockService);
 const pointsModel = new PointsModel(mockService);
 const filterModel = new FilterModel();
-
 const newPointButtonPresenter = new NewPointButtonPresenter({
   container: infoTripElement,
 });

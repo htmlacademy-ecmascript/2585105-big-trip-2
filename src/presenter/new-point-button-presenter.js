@@ -25,6 +25,6 @@ export default class NewPointButtonPresenter {
   }
 
   #buttonClickHandler = () => {
-    this.#handleButtonClick
+    this.#handleButtonClick();
   };
 }
