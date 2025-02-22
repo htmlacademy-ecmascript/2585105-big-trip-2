@@ -30,7 +30,7 @@ export default class NewPointPresenter {
       onResetClick: this.#handleResetClick,
       onDeleteClick: this.#handleResetClick,
       onSubmitClick: this.#handleFormSubmit,
-      mode: EditType.CREATING
+      modeAddForm: EditType.CREATING
     });
 
     render(this.#pointNewComponent, this.#container, RenderPosition.AFTERBEGIN);

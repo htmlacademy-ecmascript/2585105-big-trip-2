@@ -11,7 +11,7 @@ const POINT_BLANK = {
   destination: null,
   isFavorite: false,
   offers: [],
-  type: 'Taxi',
+  type: 'Flight',
 };
 
 const createTypeTemplate = (currentType) => `
@@ -42,13 +42,10 @@ const createTypeWrapperTemplate = (type) => `
 const createDateTemplate = (dateFrom, dateTo, isDateCreating) => `
     <div class="event__field-group  event__field-group--time">
       <label class="visually-hidden" for="event-start-time-1">From</label>
-      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${isDateCreating ? formatStringToDayTime(dateFrom) : ''}"
-      required
-      >&mdash;
+      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${isDateCreating ? formatStringToDayTime(dateFrom) : ''}" required>
+      &mdash;
       <label class="visually-hidden" for="event-end-time-1">To</label>
-      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"  value="${isDateCreating ? formatStringToDayTime(dateTo) : ''}"
-      required
-      >
+      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"  value="${isDateCreating ? formatStringToDayTime(dateTo) : ''}" required>
     </div>
 `;
 
@@ -112,6 +109,7 @@ const createDestinationsTemplate = (hasDestinations, destinationById) => `
 const createFormEditTemplate = ({ state = POINT_BLANK, pointDestinations, pointOffers, modeAddForm }) => {
   const { point } = state;
   const { type, dateFrom, dateTo, basePrice, destination, offers } = point;
+  const isCreating = modeAddForm === EditType.CREATING;
   const offersByType = pointOffers.find((item) => item.type.toLowerCase() === point.type.toLowerCase()).offers;
   const destinationById = pointDestinations.find((item) => item.id === destination);
   const hasOffers = offersByType.length > 0;
@@ -136,10 +134,10 @@ const createFormEditTemplate = ({ state = POINT_BLANK, pointDestinations, pointO
                 ${createPriceTemplate(basePrice)}
 
                 <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-                <button class="event__reset-btn" type="reset">${(modeAddForm) ? 'Cancel' : 'Delete'}</button>
-                <button class="event__rollup-btn" type="button">
+                <button class="event__reset-btn" type="reset">${isCreating ? 'Cancel' : 'Delete'}</button>
+                ${(isCreating) ? '' : `<button class="event__rollup-btn" type="button">
                     <span class="visually-hidden">Open event</span>
-                </button>
+                  </button>`}
             </header>
             <section class="event__details">
               ${createOffersTemplate(hasOffers, offersByType, offers)}
@@ -160,7 +158,7 @@ export default class FormEditView extends AbstractStatefulView {
   #onDeleteClick = null;
   #modeAddForm = EditType.EDITING;
 
-  constructor({ point = POINT_BLANK, pointDestinations, pointOffers, onSubmitClick, onResetClick, onDeleteClick, mode }) {
+  constructor({ point = POINT_BLANK, pointDestinations, pointOffers, onSubmitClick, onResetClick, onDeleteClick, modeAddForm }) {
     super();
     this._state = point;
     this._setState(FormEditView.parsePointToState({ point }));
@@ -169,7 +167,7 @@ export default class FormEditView extends AbstractStatefulView {
     this.#onResetClick = onResetClick;
     this.#onSubmitClick = onSubmitClick;
     this.#onDeleteClick = onDeleteClick;
-    this.#modeAddForm = mode;
+    this.#modeAddForm = modeAddForm;
     this._restoreHandlers();
   }
 
@@ -199,7 +197,10 @@ export default class FormEditView extends AbstractStatefulView {
   };
 
   _restoreHandlers = () => {
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#resetButtonClickHandler);
+    if (this.#modeAddForm === EditType.EDITING) {
+      this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#resetButtonClickHandler);
+      this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteHandler);
+    }
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#typeChangeHandler);
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
