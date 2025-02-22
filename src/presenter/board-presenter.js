@@ -21,6 +21,7 @@ export default class BoardPresenter {
   #newPointPresenter = null;
   #newPointButtonPresenter = null;
   #isCreating = false;
+  #noPointsComponent = null;
 
   constructor({ container, destinationsModel, offersModel, pointsModel, filterModel, newPointButtonPresenter }) {
     this.#container = container;
@@ -113,6 +114,11 @@ export default class BoardPresenter {
     if (resetSortType) {
       this.#currentSortType = SortType.DAY;
     }
+
+    if (this.#noPointsComponent) {
+      remove(this.#noPointsComponent);
+    }
+
   };
 
   #handleViewAction = (actionType, updateType, update) => {
@@ -145,6 +151,15 @@ export default class BoardPresenter {
     }
   };
 
+  #newPointDestroyHandler = ({ isCanceled }) => {
+    this.#isCreating = false;
+    this.#newPointButtonPresenter.enableButton();
+    if (this.points.length === 0 && isCanceled) {
+      this.#clearBoard();
+      this.#renderBoard();
+    }
+  };
+
   #handleSortTypeChange = (sortType) => {
     if (this.#currentSortType === sortType) {
       return;
@@ -159,25 +174,25 @@ export default class BoardPresenter {
     render(this.#editListComponent, this.#container);
   };
 
-  #renderEmpty = () => {
-    if (this.points.length === 0) {
-      render(new EmptyListView(), this.#container);
-    }
-  };
+  // #renderEmpty = () => {
+  //   render(new EmptyListView(), this.#container);
+  // };
+
+  #renderNoPoints() {
+    this.#noPointsComponent = new EmptyListView({
+      filterType: this.#filterModel.get()
+    });
+
+    render(this.#noPointsComponent, this.#container);
+  }
 
   #renderBoard = () => {
+    if (this.points.length === 0 && !this.#isCreating) {
+      this.#renderNoPoints();
+      return;
+    }
     this.#renderSort();
-    this.#renderEmpty();
     this.#renderPointContainer();
     this.#renderPoints();
-  };
-
-  #newPointDestroyHandler = ({ isCanceled }) => {
-    this.#isCreating = false;
-    this.#newPointButtonPresenter.enableButton();
-    if (this.points === 0 && isCanceled) {
-      this.#clearBoard();
-      this.#renderBoard();
-    }
   };
 }
