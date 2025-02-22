@@ -39,12 +39,12 @@ const createTypeWrapperTemplate = (type) => `
   </div>
 `;
 
-const createDateTemplate = (dateFrom, dateTo) => `
+const createDateTemplate = (dateFrom, dateTo, isDateCreating) => `
     <div class="event__field-group  event__field-group--time">
       <label class="visually-hidden" for="event-start-time-1">From</label>
-      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${formatStringToDayTime(dateFrom)}">&mdash;
+      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${isDateCreating ? formatStringToDayTime(dateFrom) : ''}">&mdash;
       <label class="visually-hidden" for="event-end-time-1">To</label>
-      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"  value="${formatStringToDayTime(dateTo)}">
+      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"  value="${isDateCreating ? formatStringToDayTime(dateTo) : ''}">
     </div>
 `;
 
@@ -110,9 +110,9 @@ const createFormEditTemplate = ({ state = POINT_BLANK, pointDestinations, pointO
   const { type, dateFrom, dateTo, basePrice, destination, offers } = point;
   const offersByType = pointOffers.find((item) => item.type.toLowerCase() === point.type.toLowerCase()).offers;
   const destinationById = pointDestinations.find((item) => item.id === destination);
-  const { name, pictures, description } = destinationById;
   const hasOffers = offersByType.length > 0;
-  const hasDestinations = pictures.length > 0 || description;
+  const hasDestinations = destinationById?.pictures.length > 0 || destinationById?.description;
+
   return `
         <li class="trip-events__item">
             <form class="event event--edit" action="#" method="post">
@@ -122,7 +122,7 @@ const createFormEditTemplate = ({ state = POINT_BLANK, pointDestinations, pointO
                   <label class="event__label  event__type-output" for="event-destination-1">
                     ${type}
                   </label>
-                  <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${name}" list="destination-list-1">
+                  <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinationById ? destinationById.name : ''}" list="destination-list-1">
                   <datalist id="destination-list-1">
                   ${createCitiesTemplate(pointDestinations, destinationById)}
                   </datalist>
