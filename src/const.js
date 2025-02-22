@@ -51,7 +51,7 @@ const DESTINATION_COUNT = 3;
 
 const OFFER_COUNT = 3;
 
-const POINT_COUNT = 6;
+const POINT_COUNT = 10;
 
 const FilterType = {
   EVERYTHING: 'Everything',
@@ -76,11 +76,16 @@ const UserAction = {
   ADD_POINT: 'ADD_POINT',
   DELETE_POINT: 'DELETE_POINT',
 };
+
 const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
 };
-export { TYPES, DESCRIPTIONS, CITIES, OFFERS, Price, Duration, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT, FilterType, Mode, SortType, UserAction, UpdateType };
 
+const EditType = {
+  EDITING: 'EDITING',
+  CREATING: 'CREATING',
+};
 
+export { TYPES, DESCRIPTIONS, CITIES, OFFERS, Price, Duration, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT, FilterType, Mode, SortType, UserAction, UpdateType, EditType };

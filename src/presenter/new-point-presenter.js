@@ -1,6 +1,6 @@
 import FormEditView from '../view/form-edit-view';
 import { remove, render, RenderPosition } from '../framework/render';
-import { UserAction, UpdateType } from '../const';
+import { UserAction, UpdateType, EditType } from '../const';
 
 export default class NewPointPresenter {
   #container = null;
@@ -28,8 +28,9 @@ export default class NewPointPresenter {
       pointDestinations: this.#destinationsModel.get(),
       pointOffers: this.#offersModel.get(),
       onResetClick: this.#handleResetClick,
+      onDeleteClick: this.#handleResetClick,
       onSubmitClick: this.#handleFormSubmit,
-      type: UpdateType.ADD_POINT,
+      mode: EditType.CREATING
     });
 
     render(this.#pointNewComponent, this.#container, RenderPosition.AFTERBEGIN);

@@ -1,6 +1,6 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { formatStringToDayTime } from '../utils/day.js';
-import { TYPES } from '../const.js';
+import { TYPES, EditType } from '../const.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -42,9 +42,13 @@ const createTypeWrapperTemplate = (type) => `
 const createDateTemplate = (dateFrom, dateTo, isDateCreating) => `
     <div class="event__field-group  event__field-group--time">
       <label class="visually-hidden" for="event-start-time-1">From</label>
-      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${isDateCreating ? formatStringToDayTime(dateFrom) : ''}">&mdash;
+      <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${isDateCreating ? formatStringToDayTime(dateFrom) : ''}"
+      required
+      >&mdash;
       <label class="visually-hidden" for="event-end-time-1">To</label>
-      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"  value="${isDateCreating ? formatStringToDayTime(dateTo) : ''}">
+      <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"  value="${isDateCreating ? formatStringToDayTime(dateTo) : ''}"
+      required
+      >
     </div>
 `;
 
@@ -105,7 +109,7 @@ const createDestinationsTemplate = (hasDestinations, destinationById) => `
 `;
 
 
-const createFormEditTemplate = ({ state = POINT_BLANK, pointDestinations, pointOffers }) => {
+const createFormEditTemplate = ({ state = POINT_BLANK, pointDestinations, pointOffers, modeAddForm }) => {
   const { point } = state;
   const { type, dateFrom, dateTo, basePrice, destination, offers } = point;
   const offersByType = pointOffers.find((item) => item.type.toLowerCase() === point.type.toLowerCase()).offers;
@@ -122,7 +126,8 @@ const createFormEditTemplate = ({ state = POINT_BLANK, pointDestinations, pointO
                   <label class="event__label  event__type-output" for="event-destination-1">
                     ${type}
                   </label>
-                  <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinationById ? destinationById.name : ''}" list="destination-list-1">
+                  <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinationById ? destinationById.name : ''}" list="destination-list-1"
+                  required>
                   <datalist id="destination-list-1">
                   ${createCitiesTemplate(pointDestinations, destinationById)}
                   </datalist>
@@ -131,9 +136,9 @@ const createFormEditTemplate = ({ state = POINT_BLANK, pointDestinations, pointO
                 ${createPriceTemplate(basePrice)}
 
                 <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-                <button class="event__reset-btn" type="reset">Delete</button>
+                <button class="event__reset-btn" type="reset">${(modeAddForm) ? 'Cancel' : 'Delete'}</button>
                 <button class="event__rollup-btn" type="button">
-                  <span class="visually-hidden">Open event</span>
+                    <span class="visually-hidden">Open event</span>
                 </button>
             </header>
             <section class="event__details">
@@ -153,8 +158,9 @@ export default class FormEditView extends AbstractStatefulView {
   #datepickerFrom = null;
   #datepickerTo = null;
   #onDeleteClick = null;
+  #modeAddForm = EditType.EDITING;
 
-  constructor({ point = POINT_BLANK, pointDestinations, pointOffers, onSubmitClick, onResetClick, onDeleteClick }) {
+  constructor({ point = POINT_BLANK, pointDestinations, pointOffers, onSubmitClick, onResetClick, onDeleteClick, mode }) {
     super();
     this._state = point;
     this._setState(FormEditView.parsePointToState({ point }));
@@ -163,6 +169,7 @@ export default class FormEditView extends AbstractStatefulView {
     this.#onResetClick = onResetClick;
     this.#onSubmitClick = onSubmitClick;
     this.#onDeleteClick = onDeleteClick;
+    this.#modeAddForm = mode;
     this._restoreHandlers();
   }
 
@@ -171,6 +178,7 @@ export default class FormEditView extends AbstractStatefulView {
       state: this._state,
       pointDestinations: this.#pointDestinations,
       pointOffers: this.#pointOffers,
+      modeAddForm: this.#modeAddForm
     });
   }
 
@@ -197,7 +205,9 @@ export default class FormEditView extends AbstractStatefulView {
     this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
     this.element.querySelector('.event__available-offers')?.addEventListener('change', this.#offerChangeHandler);
     this.element.querySelector('.event__input--price').addEventListener('change', this.#priceChangeHandler);
-    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteHandler);
+    if (this.#modeAddForm === EditType.CREATING) {
+      this.element.querySelector('.event__reset-btn').addEventListener('click', this.#formDeleteHandler);
+    }
     this.#setDatepickers();
   };
 
