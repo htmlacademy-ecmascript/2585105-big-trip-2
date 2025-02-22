@@ -106,7 +106,7 @@ const createDestinationsTemplate = (hasDestinations, destinationById) => `
 `;
 
 
-const createFormEditTemplate = ({ state = POINT_BLANK, pointDestinations, pointOffers, modeAddForm }) => {
+const createFormEditTemplate = ({ state, pointDestinations, pointOffers, modeAddForm }) => {
   const { point } = state;
   const { type, dateFrom, dateTo, basePrice, destination, offers } = point;
   const isCreating = modeAddForm === EditType.CREATING;
@@ -203,7 +203,7 @@ export default class FormEditView extends AbstractStatefulView {
     }
     this.element.querySelector('form').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__type-group').addEventListener('change', this.#typeChangeHandler);
-    this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationChangeHandler);
+    //this.element.querySelector('.event__input--destination').addEventListener('change', this.#destinationsChangeHandler);
     this.element.querySelector('.event__available-offers')?.addEventListener('change', this.#offerChangeHandler);
     this.element.querySelector('.event__input--price').addEventListener('change', this.#priceChangeHandler);
     if (this.#modeAddForm === EditType.CREATING) {
@@ -227,7 +227,7 @@ export default class FormEditView extends AbstractStatefulView {
       point: {
         ...this._state.point,
         type: evt.target.value,
-        offer: []
+        offers: []
       }
     });
   };
