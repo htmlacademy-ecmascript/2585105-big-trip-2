@@ -85,14 +85,34 @@ const createOffersTemplate = (hasOffers, offersByType, offers) => (
     </section>` : ''
 );
 
+const createPicturesTemplate = (pictures) =>
+  `${(pictures) ?
+    `<div class="event__photos-tape">
+  ${(pictures).map((picture) => `<img class="event__photo" src="${picture.src}" alt="${picture.description}">`).join('')}
+    </div>`
+    : ''}`;
+
+const createDestinationsTemplate = (hasDestinations, destinationById) => `
+  ${hasDestinations ? `
+  <section class="event__section  event__section--destination">
+    <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+    <p class="event__destination-description">${destinationById.description}</p>
+    <div class="event__photos-container">
+      ${createPicturesTemplate(destinationById.pictures)}
+    </div>
+  </section>
+  ` : ''}
+`;
+
+
 const createFormEditTemplate = ({ state = POINT_BLANK, pointDestinations, pointOffers }) => {
   const { point } = state;
   const { type, dateFrom, dateTo, basePrice, destination, offers } = point;
   const offersByType = pointOffers.find((item) => item.type.toLowerCase() === point.type.toLowerCase()).offers;
   const destinationById = pointDestinations.find((item) => item.id === destination);
-  //const { name, pictures, description } = destinationById;
+  const { name, pictures, description } = destinationById;
   const hasOffers = offersByType.length > 0;
-  //const hasDestinations = pictures.length > 0 || description;
+  const hasDestinations = pictures.length > 0 || description;
   return `
         <li class="trip-events__item">
             <form class="event event--edit" action="#" method="post">
@@ -118,6 +138,7 @@ const createFormEditTemplate = ({ state = POINT_BLANK, pointDestinations, pointO
             </header>
             <section class="event__details">
               ${createOffersTemplate(hasOffers, offersByType, offers)}
+              ${createDestinationsTemplate(hasDestinations, destinationById)}
             </section>
             </form>
         </li>
