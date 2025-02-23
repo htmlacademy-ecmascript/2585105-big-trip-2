@@ -4,9 +4,10 @@ import { TYPES, EditType } from '../const.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import { toCapitalize } from '../utils/common.js';
+import he from 'he';
 
 const POINT_BLANK = {
-  basePrice: 0,
+  basePrice: '',
   dateFrom: null,
   dateTo: null,
   destination: null,
@@ -61,7 +62,7 @@ const createPriceTemplate = (basePrice) => `
         <span class="visually-hidden">Price</span>
         &euro;
     </label>
-    <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
+     <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${he.encode(String(basePrice))}" min="1" required>
     </div>
 `;
 
@@ -125,8 +126,7 @@ const createFormEditTemplate = ({ state, pointDestinations, pointOffers, modeAdd
                   <label class="event__label  event__type-output" for="event-destination-1">
                     ${type}
                   </label>
-                  <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinationById ? destinationById.name : ''}" list="destination-list-1"
-                  required>
+                  <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinationById ? he.encode(destinationById.name) : ''}" list="destination-list-1"
                   <datalist id="destination-list-1">
                   ${createCitiesTemplate(pointDestinations, destinationById)}
                   </datalist>
@@ -295,6 +295,7 @@ export default class FormEditView extends AbstractStatefulView {
         firstDayOfWeek: 1,
       },
       'time_24hr': true,
+      allowInput: true,
     };
 
     this.#datepickerFrom = flatpickr(
