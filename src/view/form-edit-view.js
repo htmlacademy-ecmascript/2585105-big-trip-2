@@ -7,7 +7,7 @@ import { toCapitalize } from '../utils/common.js';
 import he from 'he';
 
 const POINT_BLANK = {
-  basePrice: '',
+  basePrice: '0',
   dateFrom: null,
   dateTo: null,
   destination: null,
