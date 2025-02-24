@@ -53,7 +53,7 @@ function isPointFuture(point) {
 }
 
 function isPointPresent(point) {
-  return dayjs().isBefore(point.dateFrom) && dayjs().isAfter(point.dateTo);
+  return dayjs().isBefore(point.dateTo) && dayjs().isAfter(point.dateFrom);
 }
 
 function isPointPast(point) {
