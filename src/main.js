@@ -9,8 +9,8 @@ import NewPointButtonPresenter from './presenter/new-point-button-presenter.js';
 import FilterModel from './model/filter-model';
 import PointsApiService from './service/points-api-service.js';
 
-const AUTHORIZATION = 'Basic eo3r421ik98211b';
-const END_POINT = 'https://22.objects.htmlacademy.pro/big-trip';
+const AUTHORIZATION = 'Basic m4KsL1nQjW7eFpYd9XzRv3rNc';
+const END_POINT = 'https://21.objects.pages.academy/big-trip';
 
 const filterElement = document.querySelector('.trip-controls__filters');
 const pageMain = document.querySelector('.page-main');
@@ -20,7 +20,11 @@ const filterModel = new FilterModel;
 const pointsApiService = new PointsApiService(END_POINT, AUTHORIZATION);
 const destinationsModel = new DestinationsModel(pointsApiService);
 const offersModel = new OffersModel(pointsApiService);
-const pointsModel = new PointsModel(pointsApiService);
+const pointsModel = new PointsModel({
+  pointsApiService,
+  destinationsModel,
+  offersModel
+});
 
 const newPointButtonPresenter = new NewPointButtonPresenter({
   container: infoTripElement,
@@ -45,5 +49,6 @@ render(new InfoTrip(), infoTripElement, RenderPosition.AFTERBEGIN);
 
 newPointButtonPresenter.init({ onButtonClick: boardPresenter.newPointButtonClickHandler });
 
+pointsModel.init();
 boardPresenter.init();
 filterPresenter.init();

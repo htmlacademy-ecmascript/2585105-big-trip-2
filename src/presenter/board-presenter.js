@@ -23,6 +23,7 @@ export default class BoardPresenter {
   #isCreating = false;
   #noPointsComponent = null;
 
+
   constructor({ container, destinationsModel, offersModel, pointsModel, filterModel, newPointButtonPresenter }) {
     this.#container = container;
     this.#pointsModel = pointsModel;
@@ -121,16 +122,31 @@ export default class BoardPresenter {
 
   };
 
-  #handleViewAction = (actionType, updateType, update) => {
+  #handleViewAction = async (actionType, updateType, update) => {
     switch (actionType) {
       case UserAction.UPDATE_POINT:
-        this.#pointsModel.update(updateType, update);
+        this.#pointPresenters.get(update.id).setSaving();
+        try {
+          await this.#pointPresenters.update(updateType, update);
+        } catch {
+          this.#pointPresenters.get(update.id).setAborting();
+        }
         break;
       case UserAction.ADD_POINT:
-        this.#pointsModel.add(updateType, update);
+        this.#newPointPresenter.setSaving();
+        try {
+          await this.#pointsModel.get(updateType, update);
+        } catch {
+          this.#newPointPresenter.setAborting();
+        }
         break;
       case UserAction.DELETE_POINT:
-        this.#pointsModel.delete(updateType, update);
+        this.#pointPresenters.get(update.id).setDeleting();
+        try {
+          await this.#pointsModel.delete(updateType, update);
+        } catch {
+          this.#pointPresenters.get(update.id).setAborting();
+        }
         break;
     }
   };
@@ -173,10 +189,6 @@ export default class BoardPresenter {
   #renderPointContainer = () => {
     render(this.#editListComponent, this.#container);
   };
-
-  // #renderEmpty = () => {
-  //   render(new EmptyListView(), this.#container);
-  // };
 
   #renderNoPoints() {
     this.#noPointsComponent = new EmptyListView({
