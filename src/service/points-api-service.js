@@ -2,15 +2,15 @@ import ApiService from '../framework/api-service.js';
 import { Method } from '../const.js';
 
 export default class PointsApiService extends ApiService {
-  get points() {
+  getPoints() {
     return this._load({ url: 'points' }).then(ApiService.parseResponse);
   }
 
-  get destinations() {
+  getDestinations() {
     return this._load({ url: 'destinations' }).then(ApiService.parseResponse);
   }
 
-  get offers() {
+  getOffers() {
     return this._load({ url: 'offers' }).then(ApiService.parseResponse);
   }
 
