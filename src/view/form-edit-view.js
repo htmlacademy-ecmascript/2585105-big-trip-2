@@ -7,7 +7,7 @@ import { toCapitalize } from '../utils/common.js';
 import he from 'he';
 
 const POINT_BLANK = {
-  basePrice: '0',
+  basePrice: '',
   dateFrom: '',
   dateTo: '',
   destination: '',
@@ -62,7 +62,7 @@ const createPriceTemplate = (basePrice) => `
         <span class="visually-hidden">Price</span>
         &euro;
     </label>
-    <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${he.encode(String(basePrice))}" min="1" max="100000" required>
+    <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${he.encode(String(basePrice))}" min="1" max="100000" placeholder="0" required>
     </div>
 `;
 
@@ -125,10 +125,12 @@ const createFormEditTemplate = ({ state, pointDestinations, pointOffers, modeAdd
   const { type, dateFrom, dateTo, basePrice, destination, offers } = point;
   const { isDisabled, isSaving, isDeleting } = state;
   const isCreating = modeAddForm === EditType.CREATING;
-  const offersByType = pointOffers.find((item) => item.type.toLowerCase() === point.type.toLowerCase()).offers;
-  const destinationById = pointDestinations.find((item) => item.id === destination);
-  const hasOffers = offersByType.length > 0;
-  const hasDestinations = destinationById?.pictures.length > 0 || destinationById?.description;
+
+  const offersByType = pointOffers && pointOffers.find((item) => item.type.toLowerCase() === point.type.toLowerCase())?.offers;
+  const destinationById = pointDestinations && pointDestinations.find((item) => item.id === destination);
+
+  const hasOffers = offersByType && offersByType.length > 0;
+  const hasDestinations = destinationById && (destinationById.pictures.length > 0 || destinationById.description);
 
   return `
         <li class="trip-events__item">

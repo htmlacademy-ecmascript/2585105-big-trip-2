@@ -96,4 +96,9 @@ const Method = {
   DELETE: 'DELETE'
 };
 
-export { TYPES, DESCRIPTIONS, CITIES, OFFERS, Price, Duration, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT, FilterType, Mode, SortType, UserAction, UpdateType, EditType, Method };
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
+
+export { TYPES, DESCRIPTIONS, CITIES, OFFERS, Price, Duration, DESTINATION_COUNT, OFFER_COUNT, POINT_COUNT, FilterType, Mode, SortType, UserAction, UpdateType, EditType, Method, TimeLimit };
