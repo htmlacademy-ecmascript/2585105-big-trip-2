@@ -21,7 +21,7 @@ const pointsApiService = new PointsApiService(END_POINT, AUTHORIZATION);
 const destinationsModel = new DestinationsModel(pointsApiService);
 const offersModel = new OffersModel(pointsApiService);
 const pointsModel = new PointsModel({
-  pointsApiService,
+  pointsApiServiceservice: pointsApiService,
   destinationsModel,
   offersModel
 });
