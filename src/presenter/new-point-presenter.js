@@ -55,7 +55,6 @@ export default class NewPointPresenter {
       UpdateType.MINOR,
       point
     );
-    this.destroy({ isCanceled: false });
   };
 
   #escKeyDownHandler = (evt) => {
@@ -67,5 +66,24 @@ export default class NewPointPresenter {
 
   #handleResetClick = () => {
     this.destroy();
+  };
+
+  setSaving = () => {
+    this.#pointNewComponent.updateElement({
+      isDisabled: true,
+      isSaving: true,
+    });
+  };
+
+  setAborting = () => {
+    const resetFormState = () => {
+      this.#pointNewComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+
+    this.#pointNewComponent.shake(resetFormState);
   };
 }
