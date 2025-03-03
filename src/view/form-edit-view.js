@@ -8,12 +8,12 @@ import he from 'he';
 
 const POINT_BLANK = {
   basePrice: '0',
-  dateFrom: null,
-  dateTo: null,
-  destination: null,
+  dateFrom: '',
+  dateTo: '',
+  destination: '',
   isFavorite: false,
   offers: [],
-  type: 'Flight',
+  type: 'flight',
 };
 
 const createTypeTemplate = (currentType) => `
@@ -31,11 +31,11 @@ const createTypeWrapperTemplate = (type) => `
       <span class="visually-hidden">Choose event type</span>
       <img class="event__type-icon" width="17" height="17" src="img/icons/${type.toLowerCase()}.png" alt="Event ${type.toLowerCase()} icon">
     </label>
-    <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
+    <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox" >
     <div class="event__type-list">
       <fieldset class="event__type-group">
         <legend class="visually-hidden">Event type</legend>
-        ${createTypeTemplate(type)}
+        ${createTypeTemplate(toCapitalize(type))}
       </fieldset>
     </div>
   </div>
@@ -62,7 +62,7 @@ const createPriceTemplate = (basePrice) => `
         <span class="visually-hidden">Price</span>
         &euro;
     </label>
-    <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${he.encode(String(basePrice))}" min="1" required>
+    <input class="event__input  event__input--price" id="event-price-1" type="number" name="event-price" value="${he.encode(String(basePrice))}" min="1" max="100000" required>
     </div>
 `;
 
@@ -107,10 +107,23 @@ const createDestinationsTemplate = (hasDestinations, destinationById) => `
   ` : ''}
 `;
 
+const createButtonTemplate = (isCreating, isDeleting, isDisabled) => {
+  if (isCreating) {
+    return `
+      <button class="event__reset-btn" type="reset">Cancel</button>
+    `;
+  }
+  return `
+    <button class="event__reset-btn" type="reset" ${isDisabled ? 'disabled' : ''}>${isDeleting ? 'Deleting...' : 'Delete'}</button>
+    <button class="event__rollup-btn" type="button"><span class="visually-hidden">Open event</span></button>
+    `;
+};
+
 
 const createFormEditTemplate = ({ state, pointDestinations, pointOffers, modeAddForm }) => {
   const { point } = state;
   const { type, dateFrom, dateTo, basePrice, destination, offers } = point;
+  const { isDisabled, isSaving, isDeleting } = state;
   const isCreating = modeAddForm === EditType.CREATING;
   const offersByType = pointOffers.find((item) => item.type.toLowerCase() === point.type.toLowerCase()).offers;
   const destinationById = pointDestinations.find((item) => item.id === destination);
@@ -135,12 +148,8 @@ const createFormEditTemplate = ({ state, pointDestinations, pointOffers, modeAdd
                 ${createDateTemplate(dateFrom, dateTo)}
                 ${createPriceTemplate(basePrice)}
 
-                <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-                <button class="event__reset-btn" type="reset">${isCreating ? 'Cancel' : 'Delete'}</button>
-                ${(isCreating) ? '' : `
-                  <button class="event__rollup-btn" type="button">
-                    <span class="visually-hidden">Open event</span>
-                  </button>`}
+                <button class="event__save-btn  btn  btn--blue" type="submit" ${isDisabled ? 'disabled' : ''}>${isSaving ? 'Saving...' : 'Save'}</button>
+                ${createButtonTemplate(isCreating, isDeleting, isDisabled)}
             </header>
             <section class="event__details">
               ${createOffersTemplate(hasOffers, offersByType, offers)}
@@ -239,22 +248,23 @@ export default class FormEditView extends AbstractStatefulView {
     this._setState({
       point: {
         ...this._state.point,
-        basePrice: evt.target.value
+        basePrice: evt.target.valueAsNumber
       }
     });
   };
 
   #destinationChangeHandler = (evt) => {
-    const selectedDestination = this.#pointDestinations.find((pointDestination) => pointDestination.name === toCapitalize(evt.target.value));
-    const selectedDestinationId = (selectedDestination) ? selectedDestination.id : this._state.point.destination;
+    if (evt.target.value) {
+      const selectedDestination = this.#pointDestinations.find((pointDestination) => pointDestination.name === toCapitalize(evt.target.value));
+      const selectedDestinationId = (selectedDestination) ? selectedDestination.id : this._state.point.destination;
 
-    this.updateElement({
-      point: {
-        ...this._state.point,
-        destination: selectedDestinationId
-      }
-    });
-
+      this.updateElement({
+        point: {
+          ...this._state.point,
+          destination: selectedDestinationId
+        }
+      });
+    }
   };
 
   #offerChangeHandler = () => {
@@ -326,6 +336,17 @@ export default class FormEditView extends AbstractStatefulView {
     this.#onDeleteClick(FormEditView.parseStateToPoint(this._state));
   };
 
-  static parsePointToState = ({ point }) => ({ point });
+  static parsePointToState = ({
+    point,
+    isDisabled = false,
+    isSaving = false,
+    isDeleting = false,
+  }) => ({
+    point,
+    isDisabled,
+    isSaving,
+    isDeleting,
+  });
+
   static parseStateToPoint = (state) => state.point;
 }

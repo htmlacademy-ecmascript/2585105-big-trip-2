@@ -55,7 +55,6 @@ export default class NewPointPresenter {
       UpdateType.MINOR,
       point
     );
-    this.destroy({ isCanceled: false });
   };
 
   #escKeyDownHandler = (evt) => {

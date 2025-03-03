@@ -64,7 +64,7 @@ export default class PointsModel extends Observable {
   async delete(updateType, point) {
     try {
       await this.#service.deletePoint(point);
-      this.#points = this.#points.filter((pointItem) => pointItem.id !== point.id);
+      this.#points = this.#points.filter((item) => item.id !== point.id);
       this._notify(updateType);
     } catch {
       throw new Error('Can\'t delete point');
