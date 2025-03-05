@@ -9,6 +9,7 @@ import { filter } from '../utils/filter.js';
 import NewPointPresenter from './new-point-presenter.js';
 import LoadingView from '../view/loading-view.js';
 import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
+import FailedLoadingView from '../view/failed-loading-view.js';
 
 export default class BoardPresenter {
   #sortComponent = null;
@@ -25,6 +26,7 @@ export default class BoardPresenter {
   #isCreating = false;
   #noPointsComponent = null;
   #loadingComponent = new LoadingView();
+  #failedLoadingComponent = new FailedLoadingView();
   #isLoading = true;
   #uiBlocker = new UiBlocker({
     lowerLimit: TimeLimit.LOWER_LIMIT,
@@ -176,11 +178,20 @@ export default class BoardPresenter {
         remove(this.#loadingComponent);
         this.#renderBoard();
         break;
+      case UpdateType.ERROR:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderFailedLoading();
+        break;
     }
   };
 
   #renderLoading() {
     render(this.#loadingComponent, this.#container);
+  }
+
+  #renderFailedLoading() {
+    render(this.#failedLoadingComponent, this.#container);
   }
 
   #newPointDestroyHandler = ({ isCanceled }) => {
