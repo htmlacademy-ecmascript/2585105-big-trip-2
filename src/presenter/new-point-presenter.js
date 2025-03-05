@@ -42,11 +42,10 @@ export default class NewPointPresenter {
       return;
     }
 
+    this.#handleDestroy({ isCanceled });
     remove(this.#pointNewComponent);
     this.#pointNewComponent = null;
     document.removeEventListener('keydown', this.#escKeyDownHandler);
-
-    this.#handleDestroy({ isCanceled });
   };
 
   #handleFormSubmit = (point) => {
@@ -79,7 +78,8 @@ export default class NewPointPresenter {
     const resetFormState = () => {
       this.#pointNewComponent.updateElement({
         isDisabled: false,
-        isSaving: false
+        isSaving: false,
+        isDeleting: false,
       });
     };
 
