@@ -1,7 +1,6 @@
 const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
 
-
-const toCapitalize = (str) => `${str[0].toUpperCase()}${str.slice(1)}`;
+const toCapitalize = (string) => `${string[0].toUpperCase()}${string.slice(1)}`;
 
 const adaptToClient = (point) => {
   const adaptedPoint = {

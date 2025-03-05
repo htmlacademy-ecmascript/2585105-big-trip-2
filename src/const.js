@@ -59,4 +59,11 @@ const TimeLimit = {
   UPPER_LIMIT: 1000,
 };
 
-export { TYPES, FilterType, Mode, SortType, UserAction, UpdateType, EditType, Method, TimeLimit };
+const NoPointsTextType = {
+  EVERYTHING: 'Click New Event to create your first point',
+  FUTURE: 'There are no future events now',
+  PRESENT: 'There are no present events now',
+  PAST: 'There are no past events now',
+};
+
+export { TYPES, FilterType, Mode, SortType, UserAction, UpdateType, EditType, Method, TimeLimit, NoPointsTextType };
