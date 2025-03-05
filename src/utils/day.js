@@ -19,11 +19,11 @@ function formatStringToDayTime(date) {
 }
 
 function formatStringToShortDate(date) {
-  return dayjs(date).format('MMM DD');
+  return date === null ? '' : dayjs(date).format('YY-MM-DD HH:mm');
 }
 
 function formatStringToTime(date) {
-  return dayjs(date).format('HH:mm');
+  return date === null ? '' : dayjs(date).format('MMM DD');
 }
 
 function getPointDuration(dateFrom, dateTo) {
