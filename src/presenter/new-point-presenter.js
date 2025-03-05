@@ -1,6 +1,7 @@
 import FormEditView from '../view/form-edit-view';
 import { remove, render, RenderPosition } from '../framework/render';
 import { UserAction, UpdateType, EditType } from '../const';
+import { isEscapeKey } from '../utils';
 
 export default class NewPointPresenter {
   #container = null;
@@ -57,7 +58,7 @@ export default class NewPointPresenter {
   };
 
   #escKeyDownHandler = (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
+    if (isEscapeKey(evt)) {
       evt.preventDefault();
       this.destroy();
     }

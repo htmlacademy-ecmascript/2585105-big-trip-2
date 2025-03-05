@@ -50,6 +50,9 @@ function getPointDuration(dateFrom, dateTo) {
 function getScheduleDAte(date) {
   return dayjs(date).format('DD/MM/YY HH:mm');
 }
+function isEscapeKey(evt) {
+  return evt.key === 'Escape';
+}
 
 export {
   formatStringToDayTime,
@@ -57,4 +60,5 @@ export {
   formatStringToTime,
   getPointDuration,
   getScheduleDAte,
+  isEscapeKey,
 };

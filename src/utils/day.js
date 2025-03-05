@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
+
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
@@ -15,15 +16,15 @@ const MSEC_IN_HOUR = MIN_IN_HOUR * SEC_IN_MIN * MSEC_IN_SEC;
 const MSEC_IN_DAY = HOUR_IN_DAY * MSEC_IN_HOUR;
 
 function formatStringToDayTime(date) {
-  return dayjs(date).format('YY-MM-DD HH:mm');
-}
-
-function formatStringToShortDate(date) {
   return date === null ? '' : dayjs(date).format('YY-MM-DD HH:mm');
 }
 
-function formatStringToTime(date) {
+function formatStringToShortDate(date) {
   return date === null ? '' : dayjs(date).format('MMM DD');
+}
+
+function formatStringToTime(date) {
+  return dayjs(date).format('HH:mm');
 }
 
 function getPointDuration(dateFrom, dateTo) {
@@ -44,10 +45,6 @@ function getPointDuration(dateFrom, dateTo) {
   return pointDuration;
 }
 
-function getScheduleDate(date) {
-  return dayjs(date).format('DD/MM/YY HH:mm');
-}
-
 function isPointFuture(point) {
   return dayjs().isBefore(point.dateFrom);
 }
@@ -60,25 +57,13 @@ function isPointPast(point) {
   return dayjs().isAfter(point.dateTo);
 }
 
-function getPointsPriceDifference(pointA, pointB) {
-  return pointB.basePrice - pointA.basePrice;
-}
-
-function isBigDifference(pointA, pointB) {
-  return pointA.dateFrom !== pointB.dateFrom
-    || pointA.basePrice !== pointB.basePrice
-    || getPointDuration(pointA.dateFrom, pointA.dateTo) !== getPointDuration(pointB.dateFrom, pointB.dateTo);
-}
-
 export {
   formatStringToDayTime,
   formatStringToShortDate,
   formatStringToTime,
   getPointDuration,
-  getScheduleDate,
+
   isPointFuture,
   isPointPresent,
   isPointPast,
-  getPointsPriceDifference,
-  isBigDifference
 };

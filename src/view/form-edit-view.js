@@ -68,6 +68,7 @@ const createOffersTemplate = (hasOffers, offersByType, offers) => {
   if (!hasOffers) {
     return '';
   }
+
   return `
       <section class="event__section  event__section--offers">
         <h3 class="event__section-title  event__section-title--offers">Offers</h3>
@@ -88,7 +89,6 @@ const createOffersTemplate = (hasOffers, offersByType, offers) => {
         </div>
       </section>`;
 };
-
 const createPicturesTemplate = (pictures) => (
   `${(pictures) ?
     `<div class="event__photos-tape">
