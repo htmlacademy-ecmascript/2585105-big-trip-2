@@ -10,7 +10,7 @@ import FilterModel from './model/filter-model';
 import PointsApiService from './service/points-api-service.js';
 
 const AUTHORIZATION = 'Basic eo0w590ik29889AA';
-const END_POINT = 'https://22.objects.pages.academy/big-trip';
+const END_POINT = 'https://23.objects.htmlacademy.pro/big-trip';
 
 const filterElement = document.querySelector('.trip-controls__filters');
 const pageMain = document.querySelector('.page-main');

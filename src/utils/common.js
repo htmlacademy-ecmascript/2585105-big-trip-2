@@ -14,7 +14,7 @@ const getRandomArrayElement = (elements) =>
 const updateItem = (items, update) => items.map((item) => item.id === update.id ? update : item);
 
 
-const toCapitalize = (str) => `${str[0].toUpperCase()}${str.slice(1)}`;
+const toCapitalize = (textLine) => `${textLine[0].toUpperCase()}${textLine.slice(1)}`;
 
 const adaptToClient = (point) => {
   const adaptedPoint = {
