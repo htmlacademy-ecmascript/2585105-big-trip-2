@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { formatStringToDayTime, formatStringToTime, getPointDuration } from '../utils/day.js';
+import { formatStringToDayTime, formatStringToTime, getPointDuration, formatStringToShortDate } from '../utils/day.js';
 import he from 'he';
 
 const createPointTemplate = ({ point, pointDestinations, pointOffers }) => {
@@ -10,7 +10,7 @@ const createPointTemplate = ({ point, pointDestinations, pointOffers }) => {
         <li class="trip-events__item">
             <div class="event">
             <time class="event__date" datetime=${formatStringToDayTime(dateFrom)}>
-              ${formatStringToTime(dateFrom)}
+              ${formatStringToShortDate(dateFrom)}
             </time>
             <div class="event__type">
                 <img class="event__type-icon" width="42" height="42" src="img/icons/${type.toLowerCase()}.png" alt="Event type icon">
@@ -33,8 +33,8 @@ const createPointTemplate = ({ point, pointDestinations, pointOffers }) => {
             <ul class="event__selected-offers">
               ${selectedOffers.map((offer) => `
                 <li class="event__offer">
-                  <span class="event__offer-title">${offer.title}</span><br>
-                  +€&nbsp;
+                  <span class="event__offer-title">${offer.title}</span>
+                  &plus;&euro;&nbsp;
                   <span class="event__offer-price">${offer.price}</span>
                 </li>`).join('')}
             </ul>
