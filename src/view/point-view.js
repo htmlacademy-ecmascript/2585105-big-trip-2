@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { formatStringToShortDate, formatStringToDayTime, formatStringToTime, getPointDuration } from '../utils/day.js';
+import { formatStringToDayTime, formatStringToTime, getPointDuration, formatStringToShortDate } from '../utils/day.js';
 import he from 'he';
 
 const createPointTemplate = ({ point, pointDestinations, pointOffers }) => {
